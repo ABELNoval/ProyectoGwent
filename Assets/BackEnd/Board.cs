@@ -65,22 +65,31 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         
         public void AddMeleCard(Card card)
         {
-            List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Mele);
-            ApplyEffectOnCard(boardEffects, card);
+            if (card.typeOfCard != TypeOfCard.GoldCard)
+            {
+                List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Mele);
+                ApplyEffectOnCard(boardEffects, card);
+            }
             meleCards.Add(card);
         }
 
         public void AddRangeCard(Card card)
         {
-            List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Range);
-            ApplyEffectOnCard(boardEffects, card);
+            if (card.typeOfCard != TypeOfCard.GoldCard)
+            {
+                List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Range);
+                ApplyEffectOnCard(boardEffects, card);
+            }
             rangeCards.Add(card);
         }
 
         public void AddSiegeCard(Card card)
         {
-            List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Siege);
-            ApplyEffectOnCard(boardEffects, card);
+            if (card.typeOfCard != TypeOfCard.GoldCard)
+            {
+                List<BoardEffect> boardEffects = effects.FindAll(e => e.effectPosition == EffectPosition.Siege);
+                ApplyEffectOnCard(boardEffects, card);
+            }
             siegeCards.Add(card);
         }
 
@@ -263,7 +272,10 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             {
                 foreach (Card card in meleCards)
                 {
-                    card.currentPower += cant;
+                    if(card.typeOfCard != TypeOfCard.GoldCard)
+                    {
+                        card.currentPower += cant;
+                    }
                 }
                 return;
             }
@@ -272,7 +284,10 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             {
                 foreach (Card card in rangeCards)
                 {
-                    card.currentPower += cant;
+                    if(card.typeOfCard != TypeOfCard.GoldCard)
+                    {
+                        card.currentPower += cant;
+                    }
                 }
                 return;
             }
@@ -281,7 +296,10 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             {
                 foreach (Card card in siegeCards)
                 {
-                    card.currentPower += cant;
+                    if(card.typeOfCard != TypeOfCard.GoldCard)
+                    {
+                        card.currentPower += cant;
+                    }
                 }
                 return;
             }
@@ -297,7 +315,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             int minIndex = 0;
             for (int i = 0; i < cards.Count; i++)
             {
-                if(cards[i].currentPower < cards[minIndex].currentPower)
+                if(cards[i].currentPower < cards[minIndex].currentPower && cards[i].typeOfCard != TypeOfCard.GoldCard)
                 {
                     minIndex = i;
                 }
@@ -327,7 +345,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             int maxIndex = 0;
             for (int i = 0; i < cards.Count; i++)
             {
-                if(cards[i].currentPower > cards[maxIndex].currentPower)
+                if(cards[i].currentPower > cards[maxIndex].currentPower && cards[i].typeOfCard != TypeOfCard.GoldCard)
                 {
                     maxIndex = i;
                 }

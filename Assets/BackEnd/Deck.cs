@@ -22,10 +22,8 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         public List<Card> CreateHand() 
         {
             List<Card> hand = new List<Card>();
-            hand.Add(cards[9]);
-            cards.Remove(cards[9]);
-            hand.Add(cards[9]);
-            cards.Remove(cards[9]);
+            hand.Add(cards[3]);
+            cards.Remove(cards[3]);
             int a;
             for (int i = 0; i < 9; i++)
             {

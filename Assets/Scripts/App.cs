@@ -513,6 +513,8 @@ public class App : MonoBehaviour
     {
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.Gojo)
         {
+            UpdatePoints();
+            PassTurn();
             return;
         }
 
@@ -538,9 +540,8 @@ public class App : MonoBehaviour
 
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.Sukuna)
         {
-            GenerateImageInRivalPanel(player1MelePanel);
-            GenerateImageInRivalPanel(player1RangePanel);
-            GenerateImageInRivalPanel(player1SiegePanel);
+            UpdatePoints();
+            PassTurn();
             return;
         }
 
@@ -592,7 +593,8 @@ public class App : MonoBehaviour
 
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionGojo)
         {
-            
+            UpdatePoints();
+            PassTurn();
             return;
         }
 
@@ -644,7 +646,11 @@ public class App : MonoBehaviour
             int i = 0;
             while (i < panel.transform.childCount)
             {
-                panel.transform.GetChild(i).AddComponent<CardIsSelectedWithAnEffect>();
+                CardUi cardObj = panel.transform.GetChild(i).GetComponent<CardUi>();
+                if (cardObj.card.typeOfCard != TypeOfCard.GoldCard)
+                {
+                    panel.transform.GetChild(i).AddComponent<CardIsSelectedWithAnEffect>();
+                }
                 i++;
             }
         }
@@ -672,38 +678,6 @@ public class App : MonoBehaviour
         Image image = panel.GetComponentInChildren<Image>();
         image.sprite = Resources.Load<Sprite>("Art/Images/Panel");
         //panel.AddComponent<PanelRivalController>();
-    }
-
-    //Efecto de Sukuna
-    public void SukunaEffect(GameObject panel)
-    {
-        int i = 0;
-        if(panel == player1MelePanel)
-        {
-            while (i > game.player1Board.meleCards.Count)
-            {
-                game.player1Board.meleCards[i].powerBase -= 1;
-            }
-            return;
-        }
-
-        if(panel == player1RangePanel)
-        {
-            while (i > game.player1Board.rangeCards.Count)
-            {
-                game.player1Board.rangeCards[i].powerBase -= 1;
-            }
-            return;
-        }
-
-        if(panel == player1SiegePanel)
-        {
-            while (i > game.player1Board.siegeCards.Count)
-            {
-                game.player1Board.siegeCards[i].powerBase -= 1;
-            }
-            return;
-        }
     }
 
     public void AudioPlay()
@@ -762,17 +736,18 @@ public class App : MonoBehaviour
 
     private void RemoveCardUiInPanel(Card card, GameObject panel)
     {
-        bool notFound = true;
-        int i = 0;
-        while(i < panel.transform.childCount && notFound)
+        if (card != null)
         {
-            CardUi cardUi = panel.transform.GetChild(i).GetComponent<CardUi>();
-            if(cardUi.card.id == card.id)
+            bool notFound = true;
+            while(panel.transform.childCount > 0 && notFound)
             {
-                notFound = false;
-                Destroy(cardUi.gameObject);
+                CardUi cardUi = panel.transform.GetChild(0).GetComponent<CardUi>();
+                if(cardUi.card.id == card.id)
+                {
+                    notFound = false;
+                    Destroy(cardUi.gameObject);
+                }
             }
-            i++;
         }
 
     }
@@ -819,10 +794,14 @@ public class App : MonoBehaviour
         Destroy(player1RangePanel.GetComponent<ExpansionEffect>());
         Destroy(player1SiegePanel.GetComponent<ExpansionEffect>());
         Destroy(player2MelePanel.GetComponent<ExpansionEffect>());
-        Destroy(player2MelePanel.GetComponent<ExpansionEffect>());
-        Destroy(player2MelePanel.GetComponent<ExpansionEffect>());
+        Destroy(player2RangePanel.GetComponent<ExpansionEffect>());
+        Destroy(player2SiegePanel.GetComponent<ExpansionEffect>());
         
         EffectPosition effectPosition = GetEffectPosition(panel);
+        if (selectedCard == null)
+        {
+            Debug.Log("Hola");
+        }
         CardUi cardUi = selectedCard.GetComponent<CardUi>();
         if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionHakari)
         {
