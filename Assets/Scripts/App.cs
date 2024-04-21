@@ -771,8 +771,8 @@ public class App : MonoBehaviour
         player1RangePanel.AddComponent<ExpansionEffect>();
         player1SiegePanel.AddComponent<ExpansionEffect>();
         player2MelePanel.AddComponent<ExpansionEffect>();
-        player2MelePanel.AddComponent<ExpansionEffect>();
-        player2MelePanel.AddComponent<ExpansionEffect>();
+        player2RangePanel.AddComponent<ExpansionEffect>();
+        player2SiegePanel.AddComponent<ExpansionEffect>();
     }
 
     public void ActiveExpansionEffect(GameObject panel)
