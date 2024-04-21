@@ -775,3 +775,4 @@ Memory consumption went from 211.3 MB to 200.0 MB.
 Total: 41.640300 ms (FindLiveObjects: 2.048300 ms CreateObjectMapping: 2.629200 ms MarkObjects: 20.591300 ms  DeleteObjects: 16.367100 ms)
 
 Prepare: number of updated asset objects reloaded= 0
+AssetImportWorkerClient::OnTransportError - code=10054 error=Se ha forzado la interrupción de una conexión existente por el host remoto.
