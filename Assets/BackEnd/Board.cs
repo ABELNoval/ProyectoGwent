@@ -221,7 +221,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             }
             if (i < meleCards.Count)
             {
-                meleCards[i] = null;
+                meleCards.RemoveAt(i);
                 return;
             }
 
@@ -231,7 +231,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             }
             if (i < rangeCards.Count)
             {
-                rangeCards[i] = null;
+                rangeCards.RemoveAt(i);
                 return;
             }
 
@@ -241,7 +241,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             }
             if (i < siegeCards.Count)
             {
-                siegeCards[i] = null;
+                siegeCards.RemoveAt(i);
                 return;
             }
         }
@@ -415,6 +415,104 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
                         break;
                     }
                 }
+            }
+        }
+    
+        public void RemoveExpansionEffects()
+        {
+            int i = 0;
+            while(i < effects.Count)
+            {
+                if (effects[i].boardEffectType == BoardEffectType.ExpansionMahito)
+                {
+                    if (effects[i].effectPosition == EffectPosition.Mele)
+                    {
+                        IncreasePowerBy(EffectPosition.Mele, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Range)
+                    {
+                        IncreasePowerBy(EffectPosition.Range, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Siege)
+                    {
+                        IncreasePowerBy(EffectPosition.Siege, 1);
+                    }
+                    effects.RemoveAt(i);
+                    continue;
+                }
+
+                if (effects[i].boardEffectType == BoardEffectType.ExpansionHakari)
+                {
+                    if (effects[i].effectPosition == EffectPosition.Mele)
+                    {
+                        IncreasePowerBy(EffectPosition.Mele, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Range)
+                    {
+                        IncreasePowerBy(EffectPosition.Range, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Siege)
+                    {
+                        IncreasePowerBy(EffectPosition.Siege, 1);
+                    }
+                    effects.RemoveAt(i);
+                    continue;
+                }
+
+                if (effects[i].boardEffectType == BoardEffectType.ExpansionYuta)
+                {
+                    if (effects[i].effectPosition == EffectPosition.Mele)
+                    {
+                        IncreasePowerBy(EffectPosition.Mele, 2);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Range)
+                    {
+                        IncreasePowerBy(EffectPosition.Range, 2);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Siege)
+                    {
+                        IncreasePowerBy(EffectPosition.Siege, 2);
+                    }
+                    effects.RemoveAt(i);
+                    continue;
+                }
+
+                if (effects[i].boardEffectType == BoardEffectType.ExpansionSukuna)
+                {
+                    if (effects[i].effectPosition == EffectPosition.Mele)
+                    {
+                        IncreasePowerBy(EffectPosition.Mele, 2);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Range)
+                    {
+                        IncreasePowerBy(EffectPosition.Range, 2);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Siege)
+                    {
+                        IncreasePowerBy(EffectPosition.Siege, 2);
+                    }
+                    effects.RemoveAt(i);
+                    continue;
+                }
+
+                if (effects[i].boardEffectType == BoardEffectType.ExpansionJogo)
+                {
+                    if (effects[i].effectPosition == EffectPosition.Mele)
+                    {
+                        IncreasePowerBy(EffectPosition.Mele, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Range)
+                    {
+                        IncreasePowerBy(EffectPosition.Range, 1);
+                    }
+                    if (effects[i].effectPosition == EffectPosition.Siege)
+                    {
+                        IncreasePowerBy(EffectPosition.Siege, 1);
+                    }
+                    effects.RemoveAt(i);
+                    continue;
+                }
+                i++;
             }
         }
     }

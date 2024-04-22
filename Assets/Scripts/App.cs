@@ -638,6 +638,10 @@ public class App : MonoBehaviour
 
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.Despeje)
         {
+            game.DesactiveExpansionEffect();
+            DestroyExpansionsCards();
+            UpdatePoints();
+            PassTurn();
             return;
         }
 
@@ -661,6 +665,7 @@ public class App : MonoBehaviour
     {
         Debug.Log("Lure");
         Card card = cardOnBoard.GetComponent<CardUi>().card;
+        card.currentPower = card.powerBase;
         game.ActiveBuggiBuggiEffect(card);
         RemoveTheCardIsSelectedWithAnEffect();
         GameObject panel = game.activePlayer == game.player1? player1HandPanel : player2HandPanel;
@@ -738,14 +743,14 @@ public class App : MonoBehaviour
     {
         if (card != null)
         {
-            bool notFound = true;
-            while(panel.transform.childCount > 0 && notFound)
+            foreach (Transform child in panel.transform)
             {
-                CardUi cardUi = panel.transform.GetChild(0).GetComponent<CardUi>();
+                CardUi cardUi = child.GetComponent<CardUi>();
                 if(cardUi.card.id == card.id)
                 {
-                    notFound = false;
+                    Destroy(child.gameObject);
                     Destroy(cardUi.gameObject);
+                    return;
                 }
             }
         }
@@ -837,6 +842,15 @@ public class App : MonoBehaviour
             UpdatePoints();
             PassTurn();
             return;
+        }
+    }
+
+    private void DestroyExpansionsCards()
+    {
+        foreach (Transform child in expansionPanel.transform)
+        {
+            // Destruir cada hijo
+            Destroy(child.gameObject);
         }
     }
 }

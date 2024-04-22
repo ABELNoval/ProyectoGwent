@@ -404,5 +404,11 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             player1Board.effects.Add(new BoardEffect(BoardEffectType.ExpansionSukuna, effectPosition));
             player2Board.effects.Add(new BoardEffect(BoardEffectType.ExpansionSukuna, effectPosition));
         }
+    
+        public void DesactiveExpansionEffect()
+        {
+            player1Board.RemoveExpansionEffects();
+            player2Board.RemoveExpansionEffects();
+        }
     }
 }
