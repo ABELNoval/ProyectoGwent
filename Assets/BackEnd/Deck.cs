@@ -9,9 +9,26 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         Sorcers,
         Curses
     }
+    
+    public class BossEffect
+    {
+        public string description;
+        public TypeOfEffects typeOfEffect;
 
+        public BossEffect(string description, TypeOfEffects typeOfEffect)
+        {
+            this.description = description;
+            this.typeOfEffect = typeOfEffect;
+        }
+    }
     public class Deck
     {
+        public List<BossEffect> bossEffects = new List<BossEffect>()
+        {
+            new BossEffect("Mantener una carta aleatoria en el campo entre cada ronda", TypeOfEffects.SafeCard),
+            new BossEffect("Un robo extra en la siguiente ronda", TypeOfEffects.DrawOneMore),
+            new BossEffect("Ganar en caso de empate y evitar que el rival obtenga punto", TypeOfEffects.TheVictoryInTheDraw)
+        };        
         Card card;
         public List<Card> cards = new List<Card>();
         System.Random random = new System.Random();
@@ -45,7 +62,8 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
 
         public Card CreateBossCard()
         {
-            return new BossCard("Tengen", "", Resources.Load<Sprite>("Art/Images/Tengen"), CardPos.BossPosition, TypeOfCard.BossCard, "Mantener una carta aleatoria en el campo entre cada ronda", "Un robo extra en la segunda ronda", "Ganar en caso de empate y evitar que el rival obtenga punto", TypeOfEffects.SafeCard, TypeOfEffects.DrawOneMore, TypeOfEffects.TheVictoryInTheDraw);
+            int i = random.Next(0, bossEffects.Count);
+            return new BossCard("Tengen", "", Resources.Load<Sprite>("Art/Images/Tengen"), CardPos.BossPosition, TypeOfCard.BossCard, bossEffects[i].description, bossEffects[i].typeOfEffect);
         }
         public static List<Card> CreateSorcererDeck()
         {

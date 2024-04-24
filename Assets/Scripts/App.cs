@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 
 public class App : MonoBehaviour
 {
+    public GameObject audioCards;
     public GameObject player1BossPanel;
     public GameObject player2BossPanel;
     public GameObject player1BossCard;
@@ -111,7 +112,9 @@ public class App : MonoBehaviour
             player2Card.SetupCard(game.player2.hand[i]);
             GameObject player1SecundaryCard = Instantiate(emptyCard, player1RectTransform);
             GameObject player2SecundaryCard = Instantiate(emptyCard, player2RectTransform);
-            yield return new WaitForSeconds(0.4f);
+            //AudioSource audio = audioCards.GetComponent<AudioSource>();
+            //audio.Play();
+            yield return new WaitForSeconds(0.5f);
         }    
     }
     
@@ -321,13 +324,6 @@ public class App : MonoBehaviour
         panelInfo.SetActive(true);
     }
 
-    public void GenerateBossCardPanelInfo(Card card)
-    {
-        PanelBossCardInformation panelBossCardInfo = bossCardPanelInfo.GetComponent<PanelBossCardInformation>();
-        List<string> cardEffects = card.GetEffects();
-        //panelBossCardInfo.CreateCardPanelInfo(card.powerBase, card.typeOfCard, cardEffects);
-        panelInfo.SetActive(true);
-    }
     //Cambio de camara y de jugador actual
     public void PassTurn()
     {
@@ -372,32 +368,11 @@ public class App : MonoBehaviour
     {
         RefrechBoard();
         winnerPanel.SetActive(true);
-        winnerText.text = GetTheWinnerOfTheRound();
+        winnerText.text = game.GetTheWinnerOfTheRound();
         player1Points.text = game.GetPointsInPlayer1Board().ToString();
         player2Points.text = game.GetPointsInPlayer2Board().ToString();
         yield return new WaitForSeconds(2f);
         winnerPanel.SetActive(false);
-    }
-
-    //Obtener el ganador de la ronda
-    public string GetTheWinnerOfTheRound()
-    {
-        if (game.player1Points == game.player2Points)
-        {
-            game.winnerOfTheCurrentRound = null;
-            game.player1Wins++;
-            game.player2Wins++;
-            return "Draw";
-        }
-        if (game.player1Points > game.player2Points)
-        {
-            game.winnerOfTheCurrentRound = game.player1;
-            game.player1Wins++;
-            return "Player1 wins the round";
-        }
-        game.winnerOfTheCurrentRound = game.player2;
-        game.player2Wins++;
-        return "Player2 wins the round";
     }
 
     //Actualizar el tablero para una nueva ronda
@@ -436,19 +411,15 @@ public class App : MonoBehaviour
     {
         game.player1.isPlaying = true;
         game.player2.isPlaying = true;
-        if (game.winnerOfTheCurrentRound == null)
-        {
-            PassTurn();
-            return;
-        }
-        RemoveEmptyCard();
+        PassTurn();
+        /*RemoveEmptyCard();
         game.activePlayer = game.winnerOfTheCurrentRound;
         player1Camera.SetActive(game.winnerOfTheCurrentRound == game.player1);
         player2Camera.SetActive(game.winnerOfTheCurrentRound == game.player2);
         player1HandPanel.SetActive(game.winnerOfTheCurrentRound == game.player1);
         player2HandPanel.SetActive(game.winnerOfTheCurrentRound == game.player2);
         player1HandSecundaryPanel.SetActive(game.winnerOfTheCurrentRound == game.player2);
-        player2HandSecundaryPanel.SetActive(game.winnerOfTheCurrentRound == game.player1);
+        player2HandSecundaryPanel.SetActive(game.winnerOfTheCurrentRound == game.player1);*/
         GenerateTwoCards();
     }
 
@@ -660,6 +631,11 @@ public class App : MonoBehaviour
         }
     }
 
+    public void ActiveBossEffect(Card card)
+    {
+        game.AddEffect(card.GetTypeOfEffects()[0]);
+        PassTurn();
+    }
 
     public void ApplyLureEffect(GameObject cardOnBoard)
     {

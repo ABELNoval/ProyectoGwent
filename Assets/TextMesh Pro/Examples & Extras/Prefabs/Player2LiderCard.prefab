@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 7594147945747625690}
   - component: {fileID: 1959505384207644507}
   - component: {fileID: 1612132541407287401}
+  - component: {fileID: 2455814204499207327}
   m_Layer: 0
   m_Name: Player2LiderCard
   m_TagString: Untagged
@@ -248,7 +249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 180, y: 180, z: 89.989}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 4.36, y: -1.63}
+  m_AnchoredPosition: {x: 4.3599854, y: -1.6300049}
   m_SizeDelta: {x: 3.1718, y: 8.2519}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7594147945747625690
@@ -298,3 +299,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b155a75ffde1d5b4785ff11f190dc7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2455814204499207327
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893673871733395194}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.2626753, y: 8.409015, z: 0.17904589}
+  m_Center: {x: -0.09111714, y: -0.096981525, z: 0.027853144}

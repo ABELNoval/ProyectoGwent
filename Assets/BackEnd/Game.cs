@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Rendering;
+using UnityEditor.Rendering;
 
 namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
 {
     public class Game
     {
+        public List<TypeOfEffects> player1ActivesEffeccts;
+        public List<TypeOfEffects> player2ActivesEffeccts;
         public Player winnerOfTheCurrentRound;
         public int player1Points;
         public int player2Points;
@@ -23,6 +23,8 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         public Deck curseDeck;
         public Game()
         {
+            player1ActivesEffeccts = new List<TypeOfEffects>();
+            player2ActivesEffeccts = new List<TypeOfEffects>();
             winnerOfTheCurrentRound = null;
             player1Points = 0;
             player2Points = 0;
@@ -103,36 +105,36 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         {
             if (activePlayer == player1) 
             {
-                player1Points += card.powerBase;
                 player1Board.AddMeleCard(card);
+                player1Points = player1Board.GetBoardPoints();
                 return;
             }  
-            player2Points += card.powerBase; 
             player2Board.AddMeleCard(card);
+            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlayRangeCard(Card card)
         {
             if (activePlayer == player1) 
             {
-                player1Points += card.powerBase;
                 player1Board.AddRangeCard(card);
+                player1Points = player1Board.GetBoardPoints();
                 return;
             } 
-            player2Points += card.powerBase;  
             player2Board.AddRangeCard(card);
+            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlaySiegeCard(Card card)
         {
             if (activePlayer == player1) 
             {
-                player1Points += card.powerBase;
                 player1Board.AddSiegeCard(card);
+                player1Points = player1Board.GetBoardPoints();
                 return;
             } 
-            player2Points += card.powerBase;  
-            player2Board.AddSiegeCard(card);
+           player2Board.AddSiegeCard(card);
+            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlayExpansionCard(Card card)
@@ -261,6 +263,63 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             Swap(player2.hand);
         }
 
+        public string GetTheWinnerOfTheRound()
+        {
+            if (player1Points == player2Points)
+            {
+                if (IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player1ActivesEffeccts) && !IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player2ActivesEffeccts))
+                {
+                    winnerOfTheCurrentRound = player1;
+                    player1Wins++;
+                    return "Player1 wins the round";
+                }
+                if (IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player2ActivesEffeccts) && !IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player1ActivesEffeccts))
+                {
+                    winnerOfTheCurrentRound = player2;
+                    player2Wins++;
+                    return "Player2 wins the round";
+                }
+                winnerOfTheCurrentRound = null;
+                player1Wins++;
+                player2Wins++;
+                return "Draw";
+            }
+            if (player1Points > player2Points)
+            {
+                winnerOfTheCurrentRound = player1;
+                player1Wins++;
+                return "Player1 wins the round";
+            }
+            winnerOfTheCurrentRound = player2;
+            player2Wins++;
+            return "Player2 wins the round";
+        }
+
+        public bool IsThisEffectActive(TypeOfEffects typeOfEffects, List<TypeOfEffects> playerActivesEffeccts)
+        {
+            int i = 0;
+            while (i < playerActivesEffeccts.Count && typeOfEffects != playerActivesEffeccts[i])
+            {
+                i++;
+            }
+            if(i < playerActivesEffeccts.Count)
+            {
+                playerActivesEffeccts.RemoveAt(i);
+                return true;
+            }
+            return false;
+        }
+        
+        public void AddEffect(TypeOfEffects typeOfEffects)
+        {
+            if(activePlayer == player1)
+            {
+                player1ActivesEffeccts.Add(typeOfEffects);
+                return;
+            }
+            player2ActivesEffeccts.Add(typeOfEffects);
+        }
+        
         public void Swap(List<Card> hand)
         {
             (hand[^1], hand[0]) = (hand[0], hand[^1]);

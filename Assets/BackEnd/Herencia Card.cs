@@ -141,30 +141,23 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
 
     public class BossCard : Card
     {
-        public TypeOfEffects typeOfEffects1;
-        public TypeOfEffects typeOfEffects2;
-        public TypeOfEffects typeOfEffects3;
-        public string effect1Base;
-        public string effect2Base;
-        public string effect3Base;
-        public BossCard(string name, string description, Sprite artwork, CardPos cardPos, TypeOfCard type, string effect1, string effect2, string effect3, TypeOfEffects typeOfEffects1, TypeOfEffects typeOfEffects2, TypeOfEffects typeOfEffects3): base (name, description, artwork, cardPos, type)
+        System.Random random= new System.Random();
+        public TypeOfEffects typeOfEffects;
+        public string effectBase;
+        public BossCard(string name, string description, Sprite artwork, CardPos cardPos, TypeOfCard type, string effect, TypeOfEffects typeOfEffects): base (name, description, artwork, cardPos, type)
         {
-            this.typeOfEffects1 = typeOfEffects1;
-            this.typeOfEffects2 = typeOfEffects2;
-            this.typeOfEffects3 = typeOfEffects3;
-            effect1Base = effect1;
-            effect2Base = effect2;
-            effect3Base = effect3;
+            this.typeOfEffects = typeOfEffects;
+            effectBase = effect;
         }
 
         public override List<string> GetEffects()
         {
-            return  new List<string>(){effect1Base, effect2Base, effect3Base};
+            return  new List<string>(){effectBase};
         }
 
         public override List<TypeOfEffects> GetTypeOfEffects()
         {
-            return new List<TypeOfEffects>(){typeOfEffects1, typeOfEffects2, typeOfEffects3};
+            return new List<TypeOfEffects>(){typeOfEffects};
         }
     }
 

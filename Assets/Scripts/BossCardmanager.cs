@@ -18,18 +18,11 @@ public class BossCardmanager : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
+        app.ActiveBossEffect(card);
     }
 
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {
-        app.panelInfo.SetActive(false);
-        app.bossCardPanelInfo.SetActive(true);
-        app.GenerateBossCardPanelInfo(card);
-    }
-
-    private void OnMouseExit()
-    {
-        app.bossCardPanelInfo.SetActive(false);
+        app.ViewCardInfo(card);
     }
 }
