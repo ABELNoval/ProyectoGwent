@@ -39,10 +39,8 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         public List<Card> CreateHand() 
         {
             List<Card> hand = new List<Card>();
-            hand.Add(cards[23]);
-            cards.Remove(cards[23]);
             int a;
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 10; i++)
             {
                 a = random.Next(0, cards.Count);
                 hand.Add(cards[a]);
@@ -133,7 +131,7 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             deck.Add(new SpecialCard("Dedo de Sukuna", "Potencia la energia maldita de las maldiciones", Resources.Load<Sprite>("Art/Images/Dedo de Sukuna(potenciador)"), CardPos.Buff, TypeOfCard.SpecialCard,"Aumenta en 2 el ataque de las cartas que se encuentren en la fila seleccionada", TypeOfEffects.Buff));
             deck.Add(new SpecialCard("Dedo de Sukuna", "Potencia la energia maldita de las maldiciones", Resources.Load<Sprite>("Art/Images/Dedo de Sukuna(potenciador)"), CardPos.Buff, TypeOfCard.SpecialCard,"Aumenta en 2 el ataque de las cartas que se encuentren en la fila seleccionada", TypeOfEffects.Buff));
             deck.Add(new SpecialCard("Dedo de Sukuna", "Potencia la energia maldita de las maldiciones", Resources.Load<Sprite>("Art/Images/Dedo de Sukuna(potenciador)"), CardPos.Buff, TypeOfCard.SpecialCard,"Aumenta en 2 el ataque de las cartas que se encuentren en la fila seleccionada", TypeOfEffects.Buff));
-            deck.Add(new SpecialCard("Cambio de forma", "La forma de una tropa cambia a la de otra, habia sido una alteracion de Mahito todo el tiempo", Resources.Load<Sprite>("Art/Images/Yuta"), CardPos.MeleAndRangeAndSiege, TypeOfCard.SpecialCard,"Cambia una carta de la mano por una del campo", TypeOfEffects.Lure));
+            deck.Add(new SpecialCard("Cambio de forma", "La forma de una tropa cambia a la de otra, habia sido una alteracion de Mahito todo el tiempo", Resources.Load<Sprite>("Art/Images/Buggi Buggi"), CardPos.MeleAndRangeAndSiege, TypeOfCard.SpecialCard,"Cambia una carta de la mano por una del campo", TypeOfEffects.Lure));
             deck.Add(new SpecialCard("Impacto externo", "Los dominios son debiles por fuera, esta carta aprovecha esao", Resources.Load<Sprite>("Art/Images/Impacto externo"), CardPos.Clearance, TypeOfCard.SpecialCard,"Destruye un dominio rival que este activo", TypeOfEffects.Despeje));
             deck.Add(new SpecialCard("Impacto externo", "Los dominios son debiles por fuera, esta carta aprovecha esao", Resources.Load<Sprite>("Art/Images/Impacto externo"), CardPos.Clearance, TypeOfCard.SpecialCard,"Destruye un dominio rival que este activo", TypeOfEffects.Despeje));
             

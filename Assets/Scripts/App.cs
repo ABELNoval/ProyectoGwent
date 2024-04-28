@@ -27,7 +27,7 @@ public class App : MonoBehaviour
     public GameObject bossCardPanelInfo;
     public GameObject player1HandSecundaryPanel;
     public GameObject player2HandSecundaryPanel;
-    public GameObject player1MelePanel; 
+    public GameObject player1MelePanel;
     public GameObject player1RangePanel;
     public GameObject player1SiegePanel;
     public GameObject player1Buff1Panel;
@@ -94,7 +94,7 @@ public class App : MonoBehaviour
         GenerateBossCard();
         StartCoroutine(GenerateHands(10));
     }
-    
+
     //Generar las cartas
     public IEnumerator GenerateHands(int cantCard)
     {
@@ -115,9 +115,9 @@ public class App : MonoBehaviour
             //AudioSource audio = audioCards.GetComponent<AudioSource>();
             //audio.Play();
             yield return new WaitForSeconds(0.5f);
-        }    
+        }
     }
-    
+
     //Generar la carta lider
     private void GenerateBossCard()
     {
@@ -138,7 +138,7 @@ public class App : MonoBehaviour
     {
         selectedCard = cardObj;
         deselectCard.SetActive(true);
-        CardUi cardUi= selectedCard.GetComponent<CardUi>();
+        CardUi cardUi = selectedCard.GetComponent<CardUi>();
         SelectPanelToPlay(cardUi.card);
     }
 
@@ -222,19 +222,19 @@ public class App : MonoBehaviour
             }
         }
     }
-    
+
     //Generar imagen del panel en que se jugara
     public void GenerateImageToPanel(GameObject panel)
     {
-       Image image = panel.GetComponentInChildren<Image>();
-       image.sprite = Resources.Load<Sprite>("Art/Images/Panel");
-       panel.AddComponent<PanelController>();
+        Image image = panel.GetComponentInChildren<Image>();
+        image.sprite = Resources.Load<Sprite>("Art/Images/Panel");
+        panel.AddComponent<PanelController>();
     }
 
     //Deseleccionar los paneles
     public void DeselectPanels()
     {
-        while(activePanels.Count > 0) 
+        while (activePanels.Count > 0)
         {
             Image image = activePanels[0].GetComponentInChildren<Image>();
             Destroy(activePanels[0].GetComponent<PanelController>());
@@ -277,12 +277,12 @@ public class App : MonoBehaviour
     //Remover una carta de la mano rival durante tu turno
     private void RemoveEmptyCard()
     {
-        if(game.activePlayer != game.player1)
-        { 
+        if (game.activePlayer != game.player1)
+        {
             Destroy(player1HandSecundaryPanel.transform.GetChild(0).gameObject);
 
             return;
-        }    
+        }
         Destroy(player2HandSecundaryPanel.transform.GetChild(0).gameObject);
     }
 
@@ -290,9 +290,9 @@ public class App : MonoBehaviour
     public void ChangesCardsConfig(GameObject panel, GameObject card)
     {
         int cantCard = 1;
-        if(panel.tag != "BuffMele" && panel.tag != "BuffRange" && panel.tag != "BuffSiege")
+        if (panel.tag != "BuffMele" && panel.tag != "BuffRange" && panel.tag != "BuffSiege")
         {
-            cantCard = (panel.tag == "Expansion")? 4 : 11;
+            cantCard = (panel.tag == "Expansion") ? 4 : 11;
         }
         //HorizontalLayoutGroup panelLayout = panel.GetComponent<HorizontalLayoutGroup>();
         Image[] images = card.GetComponentsInChildren<Image>();
@@ -346,9 +346,8 @@ public class App : MonoBehaviour
     public void StopPlayForThisRound()
     {
         DeselectCard();
-        if(!game.player1.isPlaying || !game.player2.isPlaying)
+        if (!game.player1.isPlaying || !game.player2.isPlaying)
         {
-            game.ChangesActivePLayer();
             game.StopPlaying();
             StartCoroutine(FinishRound());
             if (game.player1Wins < 2 && game.player2Wins < 2)
@@ -366,9 +365,9 @@ public class App : MonoBehaviour
     //Finalizar la ronda
     public IEnumerator FinishRound()
     {
-        RefrechBoard();
         winnerPanel.SetActive(true);
         winnerText.text = game.GetTheWinnerOfTheRound();
+        RefrechBoard();
         player1Points.text = game.GetPointsInPlayer1Board().ToString();
         player2Points.text = game.GetPointsInPlayer2Board().ToString();
         yield return new WaitForSeconds(2f);
@@ -411,15 +410,8 @@ public class App : MonoBehaviour
     {
         game.player1.isPlaying = true;
         game.player2.isPlaying = true;
+        game.activePlayer = game.winnerOfTheCurrentRound == game.player1 ? game.player2 : game.player1;
         PassTurn();
-        /*RemoveEmptyCard();
-        game.activePlayer = game.winnerOfTheCurrentRound;
-        player1Camera.SetActive(game.winnerOfTheCurrentRound == game.player1);
-        player2Camera.SetActive(game.winnerOfTheCurrentRound == game.player2);
-        player1HandPanel.SetActive(game.winnerOfTheCurrentRound == game.player1);
-        player2HandPanel.SetActive(game.winnerOfTheCurrentRound == game.player2);
-        player1HandSecundaryPanel.SetActive(game.winnerOfTheCurrentRound == game.player2);
-        player2HandSecundaryPanel.SetActive(game.winnerOfTheCurrentRound == game.player1);*/
         GenerateTwoCards();
     }
 
@@ -435,7 +427,7 @@ public class App : MonoBehaviour
     {
         int i = 1;
         yield return new WaitForSeconds(1.0f);
-        while(game.player1.hand.Count > 10)
+        while (game.player1.hand.Count > 10)
         {
             game.player1Board.AddCementeryCard(game.player1.hand[0]);
             game.player1.hand.RemoveAt(0);
@@ -443,7 +435,7 @@ public class App : MonoBehaviour
             Destroy(player1HandSecundaryPanel.transform.GetChild(i).gameObject);
             i++;
         }
-        while(game.player2.hand.Count > 10)
+        while (game.player2.hand.Count > 10)
         {
             game.player2Board.AddCementeryCard(game.player2.hand[0]);
             Destroy(player2HandPanel.transform.GetChild(player2HandPanel.transform.childCount - i).gameObject);
@@ -457,7 +449,7 @@ public class App : MonoBehaviour
     public IEnumerator FinishGame()
     {
         winnerPanel.SetActive(true);
-        winnerText.text = game.player1Wins > game.player2Wins? "Player1 wins the game" : "Player2 wins the game";
+        winnerText.text = game.player1Wins > game.player2Wins ? "Player1 wins the game" : "Player2 wins the game";
         RemoveAllCardUi();
         RemoveHandCards();
         yield return new WaitForSeconds(3f);
@@ -492,7 +484,7 @@ public class App : MonoBehaviour
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.Mahito)
         {
             Card card = game.ActiveMahitoEffect();
-            if(game.activePlayer == game.player1)
+            if (game.activePlayer == game.player1)
             {
                 GameObject player1Card = Instantiate(player1Cards, player1HandPanel.transform);
                 CardUi player1CardUi = player1Card.GetComponent<CardUi>();
@@ -605,7 +597,7 @@ public class App : MonoBehaviour
             UpdatePoints();
             PassTurn();
             return;
-        }    
+        }
 
         if (cardUi.GetComponent<CardUi>().card.GetTypeOfEffects()[0] == TypeOfEffects.Despeje)
         {
@@ -644,7 +636,7 @@ public class App : MonoBehaviour
         card.currentPower = card.powerBase;
         game.ActiveBuggiBuggiEffect(card);
         RemoveTheCardIsSelectedWithAnEffect();
-        GameObject panel = game.activePlayer == game.player1? player1HandPanel : player2HandPanel;
+        GameObject panel = game.activePlayer == game.player1 ? player1HandPanel : player2HandPanel;
         cardOnBoard.transform.SetParent(panel.transform, false);
         ChangesCardsConfig(panel, cardOnBoard);
         Instantiate(emptyCard, player1HandSecundaryPanel.transform);
@@ -653,7 +645,7 @@ public class App : MonoBehaviour
 
     }
 
-    //Marcar los paneles rivales que se pueden afectar 
+    //Marcar los paneles rivales que se pueden afectar
     public void GenerateImageInRivalPanel(GameObject panel)
     {
         Image image = panel.GetComponentInChildren<Image>();
@@ -722,7 +714,7 @@ public class App : MonoBehaviour
             foreach (Transform child in panel.transform)
             {
                 CardUi cardUi = child.GetComponent<CardUi>();
-                if(cardUi.card.id == card.id)
+                if (cardUi.card.id == card.id)
                 {
                     Destroy(child.gameObject);
                     Destroy(cardUi.gameObject);
@@ -777,42 +769,42 @@ public class App : MonoBehaviour
         Destroy(player2MelePanel.GetComponent<ExpansionEffect>());
         Destroy(player2RangePanel.GetComponent<ExpansionEffect>());
         Destroy(player2SiegePanel.GetComponent<ExpansionEffect>());
-        
+
         EffectPosition effectPosition = GetEffectPosition(panel);
         if (selectedCard == null)
         {
             Debug.Log("Hola");
         }
         CardUi cardUi = selectedCard.GetComponent<CardUi>();
-        if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionHakari)
+        if (cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionHakari)
         {
             game.ActiveExpansionHakariEffect(effectPosition);
             UpdatePoints();
             PassTurn();
             return;
         }
-        if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionMahito)
+        if (cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionMahito)
         {
             game.ActiveExpansionMahitoEffect(effectPosition);
             UpdatePoints();
             PassTurn();
             return;
         }
-        if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionYuta)
+        if (cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionYuta)
         {
             game.ActiveExpansionYutaEffect(effectPosition);
             UpdatePoints();
             PassTurn();
             return;
         }
-        if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionSukuna)
+        if (cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionSukuna)
         {
             game.ActiveExpansionSukunaEffect(effectPosition);
             UpdatePoints();
             PassTurn();
             return;
         }
-        if(cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionJogo)
+        if (cardUi.card.GetTypeOfEffects()[0] == TypeOfEffects.ExpansionJogo)
         {
             game.ActiveExpansionJogoEffect(effectPosition);
             UpdatePoints();

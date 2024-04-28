@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 using UnityEditor.Rendering;
+using Debug = UnityEngine.Debug;
 
 namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
 {
@@ -9,8 +12,6 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         public List<TypeOfEffects> player1ActivesEffeccts;
         public List<TypeOfEffects> player2ActivesEffeccts;
         public Player winnerOfTheCurrentRound;
-        public int player1Points;
-        public int player2Points;
         public Board player1Board;
         public Board player2Board;
         public bool isPlayer1Sorcer;
@@ -26,8 +27,6 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             player1ActivesEffeccts = new List<TypeOfEffects>();
             player2ActivesEffeccts = new List<TypeOfEffects>();
             winnerOfTheCurrentRound = null;
-            player1Points = 0;
-            player2Points = 0;
             player1Wins = 0;
             player2Wins = 0;
             player1Board = new Board();
@@ -106,11 +105,9 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             if (activePlayer == player1) 
             {
                 player1Board.AddMeleCard(card);
-                player1Points = player1Board.GetBoardPoints();
                 return;
             }  
             player2Board.AddMeleCard(card);
-            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlayRangeCard(Card card)
@@ -118,11 +115,9 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             if (activePlayer == player1) 
             {
                 player1Board.AddRangeCard(card);
-                player1Points = player1Board.GetBoardPoints();
                 return;
             } 
             player2Board.AddRangeCard(card);
-            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlaySiegeCard(Card card)
@@ -130,11 +125,9 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
             if (activePlayer == player1) 
             {
                 player1Board.AddSiegeCard(card);
-                player1Points = player1Board.GetBoardPoints();
                 return;
             } 
            player2Board.AddSiegeCard(card);
-            player2Points = player2Board.GetBoardPoints();
         }
 
         public void PlayExpansionCard(Card card)
@@ -221,19 +214,19 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
         {
             if (activePlayer == player1)
             {
-                player2.isPlaying = false;
+                player1.isPlaying = false;
                 return;
             }
-            player1.isPlaying = false;
+            player2.isPlaying = false;
         }
     
         public void RefrechBoard()
         {
             DrawCard();
-            SendToCementery();
+            DeleteCard();
         }
 
-        public void SendToCementery()
+        public void DeleteCard()
         {
             player1Board.RemoveCards();
             player2Board.RemoveCards();
@@ -265,6 +258,8 @@ namespace Jujutsu_Kaisen_Game_Proyect.Assets.BackEnd
 
         public string GetTheWinnerOfTheRound()
         {
+            int player1Points = player1Board.GetBoardPoints();
+            int player2Points = player2Board.GetBoardPoints();
             if (player1Points == player2Points)
             {
                 if (IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player1ActivesEffeccts) && !IsThisEffectActive(TypeOfEffects.TheVictoryInTheDraw, player2ActivesEffeccts))
